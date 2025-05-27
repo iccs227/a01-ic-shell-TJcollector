@@ -20,6 +20,23 @@ int main() {
             continue;
         }
         //fgets(buffer, 255, stdin);
-        printf("you said: %s\n", buffer);
+        // printf("you said: %s\n", buffer);
+        char command[20][255];
+        int count=0;
+        char *ptr=buffer;
+        while(sscanf(ptr,"%s",command[count]==1)){
+            ptr+=strlen(command[count]);
+            while (*ptr==' ') ptr++;
+            count++;
+        }
+        if(strcmp(command[0],"echo")==0){
+            for(int i=1;i<count;i++){
+                printf("%s ", command[i]);
+            }
+            printf("\n");
+        }
+        else{
+            printf("bad command\n");
+        }
     }
 }
