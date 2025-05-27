@@ -24,7 +24,7 @@ int main() {
         char command[20][255];
         int count=0;
         char *ptr=buffer;
-        while(sscanf(ptr,"%s",command[count]==1)){
+        while(sscanf(ptr,"%s",command[count])==1){
             ptr+=strlen(command[count]);
             while (*ptr==' ') ptr++;
             count++;
