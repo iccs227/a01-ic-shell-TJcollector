@@ -22,10 +22,16 @@ int main(int argc, char * argv[]) {
         check_script=1;
     }
     while (1) {
-        printf("icsh $ ");
+        if(!check_script){
+            printf("icsh $ ");
+            fflush(stdout);
+        }
         if(fgets(buffer, MAX_CMD_BUFFER,stdin)== NULL){
+            if (check_script) break;
+            else{
             printf("\n");
             break;
+            }
         }
         buffer[strcspn(buffer, "\n")]=0;
         if(strlen(buffer)==0){
@@ -65,6 +71,7 @@ int main(int argc, char * argv[]) {
             }
             // printf("bye\n");
             printf("\033[1;31mbye\033[0m\n");
+            if (check_script) fclose(input);
             return code;
         }
         else{
@@ -72,4 +79,8 @@ int main(int argc, char * argv[]) {
             // printf("bad command\n");
         }
     }
+    if (check_script) {
+        fclose(input);
+    }
+    return 0;
 }
