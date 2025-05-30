@@ -11,6 +11,16 @@
 int main(int argc, char * argv[]) {
     char prev[MAX_CMD_BUFFER]="";
     char buffer[MAX_CMD_BUFFER];
+    FILE *input=stdin;
+    int check_script=0;
+    if (argc==2){
+        input=fopen(argv[1],"r");
+        if(!input){
+            perror("Error while opening the file");
+            return 1;
+        }
+        check_script=1;
+    }
     while (1) {
         printf("icsh $ ");
         if(fgets(buffer, MAX_CMD_BUFFER,stdin)== NULL){
