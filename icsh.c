@@ -43,7 +43,8 @@ int main() {
     
         if(strcmp(command[0],"echo")==0){
             for(int i=1;i<count;i++){
-                printf("%s ", command[i]);
+                // printf("%s ", command[i]);
+                 printf("\033[1;32m%s\033[0m",command[i]);
             }
             printf("\n");
         }
@@ -52,11 +53,13 @@ int main() {
             if (count >= 2) {
                 code = atoi(command[1]) % 256;
             }
-            printf("bye\n");
+            // printf("bye\n");
+            printf("\033[1;31mbye\033[0m\n");
             return code;
         }
         else{
-            printf("bad command\n");
+            printf("\033[1;33mbad command\033[0m\n");
+            // printf("bad command\n");
         }
     }
 }
