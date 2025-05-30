@@ -26,7 +26,7 @@ int main(int argc, char * argv[]) {
             printf("icsh $ ");
             fflush(stdout);
         }
-        if(fgets(buffer, MAX_CMD_BUFFER,stdin)== NULL){
+        if(fgets(buffer, MAX_CMD_BUFFER,input)== NULL){
             if (check_script) break;
             else{
             printf("\n");
@@ -41,7 +41,10 @@ int main(int argc, char * argv[]) {
             if (strlen(prev) == 0) {
                 continue;  
             }
+            if (!check_script){
             printf("%s\n", prev);
+        }
+
             strcpy(buffer, prev);  
         } else {
             strcpy(prev, buffer);  
@@ -70,7 +73,9 @@ int main(int argc, char * argv[]) {
                 code = atoi(command[1]) % 256;
             }
             // printf("bye\n");
+            if (!check_script){
             printf("\033[1;31mbye\033[0m\n");
+        }
             if (check_script) fclose(input);
             return code;
         }
