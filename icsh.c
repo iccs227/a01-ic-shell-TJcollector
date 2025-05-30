@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #define MAX_CMD_BUFFER 255
 
-int main() {
+int main(int argc, char * argv[]) {
     char prev[MAX_CMD_BUFFER]="";
     char buffer[MAX_CMD_BUFFER];
     while (1) {
