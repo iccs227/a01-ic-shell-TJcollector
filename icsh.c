@@ -73,19 +73,19 @@ int main(int argc, char * argv[]) {
                 code = atoi(command[1]) % 256;
             }
             // printf("bye\n");
+            if (check_script){
+                printf("$ echo $?\n%d\n", code);  
+                fclose(input);
+            }
             if (!check_script){
             printf("\033[1;31mbye\033[0m\n");
         }
-            if (check_script) fclose(input);
             return code;
         }
         else{
             printf("\033[1;33mbad command\033[0m\n");
             // printf("bad command\n");
         }
-    }
-    if (check_script) {
-        fclose(input);
     }
     return 0;
 }
