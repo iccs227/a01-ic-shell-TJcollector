@@ -8,6 +8,7 @@
 #define MAX_CMD_BUFFER 255
 
 int main() {
+    char prev[MAX_CMD_BUFFER]="";
     char buffer[MAX_CMD_BUFFER];
     while (1) {
         printf("icsh $ ");
@@ -28,6 +29,9 @@ int main() {
             ptr+=strlen(command[count]);
             while (*ptr==' ') ptr++;
             count++;
+        }
+        if (strcmp(buffer,"!!")!=0){
+            strcpy(prev,buffer);
         }
         if(strcmp(command[0],"echo")==0){
             for(int i=1;i<count;i++){
