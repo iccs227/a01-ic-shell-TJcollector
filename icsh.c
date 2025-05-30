@@ -5,6 +5,7 @@
 
 #include "stdio.h"
 #include <string.h>
+#include <stdlib.h>
 #define MAX_CMD_BUFFER 255
 
 int main() {
@@ -20,6 +21,15 @@ int main() {
         if(strlen(buffer)==0){
             continue;
         }
+        if (strcmp(buffer, "!!") == 0) {
+            if (strlen(prev) == 0) {
+                continue;  
+            }
+            printf("%s\n", prev);
+            strcpy(buffer, prev);  
+        } else {
+            strcpy(prev, buffer);  
+        }
         //fgets(buffer, 255, stdin);
         // printf("you said: %s\n", buffer);
         char command[20][255];
@@ -30,14 +40,20 @@ int main() {
             while (*ptr==' ') ptr++;
             count++;
         }
-        if (strcmp(buffer,"!!")!=0){
-            strcpy(prev,buffer);
-        }
+    
         if(strcmp(command[0],"echo")==0){
             for(int i=1;i<count;i++){
                 printf("%s ", command[i]);
             }
             printf("\n");
+        }
+        else if (strcmp(command[0], "exit") == 0) {
+            int code = 0;
+            if (count >= 2) {
+                code = atoi(command[1]) % 256;
+            }
+            printf("bye\n");
+            return code;
         }
         else{
             printf("bad command\n");
