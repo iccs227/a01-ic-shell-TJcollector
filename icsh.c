@@ -183,6 +183,20 @@ int main(int argc, char * argv[]) {
                     dup2(in, STDIN_FILENO);
                     close(in);
                 }
+                //https://pubs.opengroup.org/onlinepubs/007904875/basedefs/fcntl.h.html
+                //https://stackoverflow.com/questions/14003466/how-can-i-read-and-write-from-files-using-the-headers-fcntl-h-and-unistd-h
+                //https://pubs.opengroup.org/onlinepubs/7908799/xsh/open.html
+                //
+                if (ofile != NULL) {
+                    int out = open(ofile, O_WRONLY | O_CREAT | O_TRUNC, 0644); //this is just to make sure that the output file is created even when it does not exists.
+                    if (out < 0) { //owronly open the file for write only access, ocreate creates a file if not exist and otrunc check if exist clear the file and put new content
+                        perror("Failed to open the output file");//644 is permission owner group other
+                        exit(1);
+                    }
+                    dup2(out, STDOUT_FILENO);
+                    close(out);
+                }
+
                 execvp(prog_argv[0], prog_argv);
                 perror("exec failed");
                 exit(1);
