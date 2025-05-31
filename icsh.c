@@ -121,6 +121,8 @@ int main(int argc, char * argv[]) {
                 perror("fork failed");
                 continue;
             } else if (!pid) {
+                signal(SIGINT,SIG_DFL);
+                signal(SIGTSTP,SIG_DFL);
                  /* This is the child */ 
                 execvp(prog_argv[0], prog_argv);
                 perror("exec failed");
