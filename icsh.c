@@ -59,7 +59,9 @@ void sigint_handler(int signal){
 void sigchld_handler(int signal){
     int status; pid_t pid;
      while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0) {
-        
+        if (WIFEXITED(status)) {
+            printf("Child exited\n");
+        }
     }
 }
 
@@ -202,7 +204,7 @@ int main(int argc, char * argv[]) {
         // }
         //https://www.geeksforgeeks.org/c-atoi-function/ https://www.tutorialspoint.com/c_standard_library/c_function_atoi.htm
         if (strcmp(command[0], "fg") == 0 && count >= 2){
-            int job_id=atoi(command[1]);
+            int job_id=atoi(command[1]+1);
             int findingjob=find_job_with_id(job_id);
             if (findingjob < 0) {
                 printf("fg: job not found: %s\n", command[1]);
@@ -226,8 +228,8 @@ int main(int argc, char * argv[]) {
 
         }
         if (strcmp(command[0], "bg") == 0 && count >= 2) {
-            int job_id=atoi(command[1]);
-            int findingjob = find_job_by_id(job_id);
+            int job_id=atoi(command[1]+1);
+            int findingjob = find_job_with_id(job_id);
             if (findingjob < 0) {
                 printf("bg: job not found: %s\n", command[1]);
             } else if (strcmp(jobs[findingjob].status, "Stopped") == 0) {
