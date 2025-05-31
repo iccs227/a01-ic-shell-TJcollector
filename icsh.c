@@ -57,8 +57,8 @@ void sigint_handler(int signal){
 
 
 void sigchld_handler(int signal){
-     pid_t pid;
-    int status;
+    int status; 
+    pid_t pid;
     while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0) {
         int idx = find_job_with_pid(pid);
         if (idx >= 0) {
