@@ -4,12 +4,13 @@
  */
 
 #include "stdio.h"
+#include <errno.h>
 #include <string.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #define MAX_CMD_BUFFER 255
-
+int prev_status = 0;
 int main(int argc, char * argv[]) {
     char prev[MAX_CMD_BUFFER]="";
     char buffer[MAX_CMD_BUFFER];
@@ -61,14 +62,19 @@ int main(int argc, char * argv[]) {
             while (*ptr==' ') ptr++;
             count++;
         }
-    
-        if(strcmp(command[0],"echo")==0){
+        if(((strcmp(command[0],"echo")==0 && count==2)) && (strcmp(command[1],"$?")==0)){
+             printf("%d\n", prev_status);
+            prev_status = 0;
+            continue;
+        }
+        else if(strcmp(command[0],"echo")==0){
             for(int i=1;i<count;i++){
                 // printf("%s ", command[i]);
                  printf("\033[1;32m%s\033[0m",command[i]);
             }
             printf("\n");
         }
+        
         else if (strcmp(command[0], "exit") == 0) {
             int code = 0;
             if (count >= 2) {
