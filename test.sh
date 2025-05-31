@@ -1,4 +1,4 @@
+ls -l
+date
 echo hello
-echo world
-!!
-exit 5
+exit 0

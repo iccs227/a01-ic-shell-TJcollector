@@ -6,6 +6,8 @@
 #include "stdio.h"
 #include <string.h>
 #include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 #define MAX_CMD_BUFFER 255
 
 int main(int argc, char * argv[]) {
@@ -82,10 +84,24 @@ int main(int argc, char * argv[]) {
         }
             return code;
         }
-        else{
-            printf("\033[1;33mbad command\033[0m\n");
-            // printf("bad command\n");
+        // else if (!check_script) {
+        //     printf("\033[1;33mbad command\033[0m\n");
+        //     // printf("bad command\n");
+        // }
+        else {
+            char *prog_argv[21];
+            for (int i = 0; i < count; i++) {
+                prog_argv[i] = command[i];
+            }
+            prog_argv[count] = NULL;
+
+            execvp(prog_argv[0], prog_argv);  
+            perror("exec failed");  
         }
+    }
+
+    if (check_script) {
+        fclose(input);
     }
     return 0;
 }
