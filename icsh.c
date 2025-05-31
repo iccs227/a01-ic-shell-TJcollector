@@ -15,10 +15,10 @@
 int prev_status = 0;
 volatile pid_t pid_fg=0;
 void sigtstp_handler(int signal){
-
+    if (pid_fg>0) kill(pid_fg,SIGTSTP);
 }
 void sigint_handler(int signal){
-
+    if (pid_fg>0) kill(pid_fg,SIGINT);
 }
 int main(int argc, char * argv[]) {
     char prev[MAX_CMD_BUFFER]="";
@@ -33,6 +33,8 @@ int main(int argc, char * argv[]) {
         }
         check_script=1;
     }
+    signal(SIGINT, sigint_handler);
+    signal(SIGTSTP, sigtstp_handler);
     while (1) {
         if(!check_script){
             printf("icsh $ ");
