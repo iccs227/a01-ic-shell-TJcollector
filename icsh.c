@@ -23,6 +23,18 @@ typedef struct{
     char status[16];
 }Job;
 Job jobs[JMAX];
+
+int find_job_with_pid(int id){
+    for (int i=0;i<jobcounter;i++){
+        if(jobs[i].id == id) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+
 void sigtstp_handler(int signal){
     if (pid_fg>0) kill(pid_fg,SIGTSTP);
 }
@@ -74,13 +86,26 @@ int main(int argc, char * argv[]) {
         }
         //fgets(buffer, 255, stdin);
         // printf("you said: %s\n", buffer);
+        // char command[20][255];
+        // int count=0;
+        // char *ptr=buffer;
+        // while(sscanf(ptr,"%s",command[count])==1){
+        //     ptr+=strlen(command[count]);
+        //     while (*ptr==' ') ptr++;
+        //     count++;
+        // }
         char command[20][255];
         int count=0;
         char *ptr=buffer;
+        int bg=0;
         while(sscanf(ptr,"%s",command[count])==1){
             ptr+=strlen(command[count]);
             while (*ptr==' ') ptr++;
             count++;
+        }
+        if (strcmp(command[count-1], "&")==0){
+            bg=1;
+            count--;
         }
         if(((strcmp(command[0],"echo")==0 && count==2)) && (strcmp(command[1],"$?")==0)){
              printf("%d\n", prev_status);
@@ -120,7 +145,7 @@ int main(int argc, char * argv[]) {
         else {
             //condition pid<0 !pid()->0 pid()->1
             //idea from the resource at the buttom of assignment
-            char *prog_argv[count];
+            char *prog_argv[count+1];
             for (int i = 0; i < count; i++) {
                 prog_argv[i] = command[i];
             }
@@ -137,6 +162,9 @@ int main(int argc, char * argv[]) {
                 perror("exec failed");
                 exit(1);
             } else if (pid){
+                if (bg){
+                    
+                }
                 pid_fg=pid;
                 /* 
                 * We're in the parent; let's wait for the child to finish*/
