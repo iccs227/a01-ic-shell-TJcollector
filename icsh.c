@@ -48,8 +48,9 @@ void sigtstp_handler(int signal){
 void sigint_handler(int signal){
     if (pid_fg>0) kill(pid_fg,SIGINT);
 }
-void childsignal_handler(int signal){
+void signal_handler(int signal){
     int status; pid_t pid;
+    while()
 }
 int main(int argc, char * argv[]) {
     char prev[MAX_CMD_BUFFER]="";
