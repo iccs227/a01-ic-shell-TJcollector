@@ -200,7 +200,12 @@ int main(int argc, char * argv[]) {
         //     printf("\033[1;33mbad command\033[0m\n");
         //     // printf("bad command\n");
         // }
-        
+        if (strcmp(command[0], "fg") == 0 && count >= 2){
+
+        }
+        if (strcmp(command[0], "bg") == 0 && count >= 2) {
+            
+        }
         else {
             //condition pid<0 !pid()->0 pid()->1
             //idea from the resource at the buttom of assignment
