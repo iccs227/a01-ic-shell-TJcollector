@@ -186,6 +186,16 @@ int main(int argc, char * argv[]) {
             }
             return code;
         }
+        if(strcmp(command[0], "jobs")==0){
+            for(int i=0;i<jobcounter;i++){
+                if (strcmp(jobs[i].status, "Done") != 0) {
+                    printf("[%d]%c  %s\t\t%s\n", jobs[i].id,
+                           (i == jobcounter - 1) ? '+' : '-',
+                           jobs[i].status, jobs[i].command);
+                }
+            }
+            continue;
+        }
         // else if (!check_script) {
         //     printf("\033[1;33mbad command\033[0m\n");
         //     // printf("bad command\n");
