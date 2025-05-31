@@ -137,13 +137,13 @@ int main(int argc, char * argv[]) {
             continue;
         }
 
-        else if(strcmp(command[0],"echo")==0){
-            for(int i=1;i<count;i++){
-                // printf("%s ", command[i]);
-                 printf("\033[1;32m%s\033[0m",command[i]);
-            }
-            printf("\n");
-        }
+        // else if(strcmp(command[0],"echo")==0){
+        //     for(int i=1;i<count;i++){
+        //         // printf("%s ", command[i]);
+        //          printf("\033[1;32m%s\033[0m",command[i]);
+        //     }
+        //     printf("\n");
+        // }
         
         else if (strcmp(command[0], "exit") == 0) {
             int code = 0;
@@ -201,7 +201,7 @@ int main(int argc, char * argv[]) {
                 if (ifile != NULL) {
                     int in = open(ifile, O_RDONLY);
                     if (in < 0) {
-                        perror("Faild to open the input file");
+                        perror("Failed to open the input file");
                         exit(1);
                     }
                     dup2(in, STDIN_FILENO);
