@@ -79,9 +79,12 @@ int main(int argc, char * argv[]) {
                 printf("$ echo $?\n%d\n", code);  
                 fclose(input);
             }
-            if (!check_script){
+            if (!check_script && count<2){
             printf("\033[1;31mbye\033[0m\n");
         }
+            if (!check_script && count >= 2){
+                printf("\033[1;31m%d\033[0m\n", code);
+            }
             return code;
         }
         // else if (!check_script) {
@@ -91,10 +94,11 @@ int main(int argc, char * argv[]) {
         else {
             //condition pid<0 !pid()->0 pid()->1
             //idea from the resource at the buttom of assignment
-            char *prog_argv[21];
+            char *prog_argv[count];
             for (int i = 0; i < count; i++) {
                 prog_argv[i] = command[i];
             }
+            prog_argv[count]=NULL;
             pid_t pid = fork();
             if (pid < 0) {
                 perror("fork failed");
