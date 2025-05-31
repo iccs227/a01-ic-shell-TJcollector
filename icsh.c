@@ -5,6 +5,7 @@
 
 #include "stdio.h"
 #include <errno.h>
+#include <fcntl.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <string.h>
@@ -165,14 +166,29 @@ int main(int argc, char * argv[]) {
             if (pid < 0) {
                 perror("fork failed");
                 continue;
-            } else if (!pid) {
+            } 
+            else if (!pid) {
+
                 signal(SIGINT,SIG_DFL);
                 signal(SIGTSTP,SIG_DFL);
                  /* This is the child */ 
+                 //https://www.quora.com/What-is-the-file-descriptor-What-are-STDIN_FILENO-STDOUT_FILENO-and-STDERR_FILENO confusing but surei guess
+                 
+                if (ifile != NULL) {
+                    int in = open(ifile, O_RDONLY);
+                    if (in < 0) {
+                        perror("Faild to open the input file");
+                        exit(1);
+                    }
+                    dup2(in, STDIN_FILENO);
+                    close(in);
+                }
                 execvp(prog_argv[0], prog_argv);
                 perror("exec failed");
                 exit(1);
-            } else if (pid){
+
+            } 
+            else if (pid){
                 pid_fg=pid;
                 /* 
                 * We're in the parent; let's wait for the child to finish*/
