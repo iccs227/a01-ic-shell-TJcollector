@@ -145,13 +145,22 @@ int main(int argc, char * argv[]) {
         else {
             //condition pid<0 !pid()->0 pid()->1
             //idea from the resource at the buttom of assignment
-            
+            int proarg_index=0;
             char *prog_argv[count+1];
+            char *ifile=NULL; char *ofile=NULL;
             for (int i = 0; i < count; i++) {
-                prog_argv[i] = command[i];
+                if (strcmp(command[i],">")==0 && i+1 < count){
+                    ofile=command[i+1]; i++;
+                }
+                else if (strcmp(command[i],"<")==0 && i+1 < count){
+                    ifile=command[i+1]; i++;
+                }
+                else{
+                    prog_argv[proarg_index++] = command[i];
+                }
+                
             }
-            prog_argv[count]=NULL;
-
+            prog_argv[proarg_index]=NULL;
             pid_t pid = fork();
             if (pid < 0) {
                 perror("fork failed");
