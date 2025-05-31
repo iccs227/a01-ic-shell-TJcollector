@@ -17,6 +17,7 @@ int prev_status = 0;
 volatile pid_t pid_fg=0;
 #define JMAX 64
 int jobcounter=0;
+int jobid=1;
 typedef struct{
     int id;
     pid_t pid;
@@ -250,6 +251,14 @@ int main(int argc, char * argv[]) {
 
             } 
             else if (pid){
+                if (bg){
+                     jobs[jobcounter].id = jobid++;
+                jobs[jobcounter].pid = pid;
+                strcpy(jobs[jobcounter].status, "Running");
+                strcpy(jobs[jobcounter].command, prev);
+                printf("[%d] %d\n", jobs[jobcounter].id, pid);
+                jobcounter++;
+                }
                 pid_fg=pid;
                 /* 
                 * We're in the parent; let's wait for the child to finish*/
