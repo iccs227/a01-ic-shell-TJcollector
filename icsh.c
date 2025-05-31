@@ -12,6 +12,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <ctype.h>
+#include "game.h"
 #define MAX_CMD_BUFFER 255
 int prev_status = 0;
 volatile pid_t pid_fg=0;
@@ -200,6 +202,10 @@ int main(int argc, char * argv[]) {
             }
             return code;
         }
+        // else if (strcmp(command[0], "wordle") == 0) {
+        //     wordle_game();
+        //     continue;
+        //}
         if(strcmp(command[0], "jobs")==0){
             for(int i=0;i<jobcounter;i++){
                 if (strcmp(jobs[i].status, "Done") != 0) {
@@ -355,5 +361,6 @@ int main(int argc, char * argv[]) {
     if (check_script) {
         fclose(input);
     }
+    
     return 0;
 }
