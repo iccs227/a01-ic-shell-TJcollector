@@ -14,24 +14,24 @@
 #define MAX_CMD_BUFFER 255
 int prev_status = 0;
 volatile pid_t pid_fg=0;
-#define JMAX 64
-int jobcounter=0;
-typedef struct{
-    int id;
-    pid_t pid;
-    char command[MAX_CMD_BUFFER];
-    char status[16];
-}Job;
-Job jobs[JMAX];
+// #define JMAX 64
+// int jobcounter=0;
+// typedef struct{
+//     int id;
+//     pid_t pid;
+//     char command[MAX_CMD_BUFFER];
+//     char status[16];
+// }Job;
+// Job jobs[JMAX];
 
-int find_job_with_pid(int id){
-    for (int i=0;i<jobcounter;i++){
-        if(jobs[i].id == id) {
-            return i;
-        }
-    }
-    return -1;
-}
+// int find_job_with_pid(int id){
+//     for (int i=0;i<jobcounter;i++){
+//         if(jobs[i].id == id) {
+//             return i;
+//         }
+//     }
+//     return -1;
+// }
 
 
 
@@ -145,11 +145,13 @@ int main(int argc, char * argv[]) {
         else {
             //condition pid<0 !pid()->0 pid()->1
             //idea from the resource at the buttom of assignment
+            
             char *prog_argv[count+1];
             for (int i = 0; i < count; i++) {
                 prog_argv[i] = command[i];
             }
             prog_argv[count]=NULL;
+
             pid_t pid = fork();
             if (pid < 0) {
                 perror("fork failed");
@@ -162,9 +164,6 @@ int main(int argc, char * argv[]) {
                 perror("exec failed");
                 exit(1);
             } else if (pid){
-                if (bg){
-                    
-                }
                 pid_fg=pid;
                 /* 
                 * We're in the parent; let's wait for the child to finish*/
