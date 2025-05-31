@@ -137,13 +137,19 @@ int main(int argc, char * argv[]) {
                 // 126 : Permission problem or command is not an executable
                 // 128 : invalid argument to exit.
                 int status;
-                waitpid(pid, &status, 0);
+                waitpid(pid, &status, WUNTRACED);
                 pid_fg=0;//resett when done
                 if(WIFEXITED(status)){
+                    // 
                     prev_status=WEXITSTATUS(status);
                 }else if (WIFSIGNALED(status)){
                     prev_status=128+WTERMSIG(status);
-                }else{
+                }else if (WIFSTOPPED(status)){
+                    printf("\nProcess %d got suspended\n",pid);
+                    prev_status=128+WSTOPSIG(status);
+                    
+                }
+                else{
                     prev_status=1;
                 }
             }
