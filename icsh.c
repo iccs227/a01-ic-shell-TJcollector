@@ -336,8 +336,13 @@ int main(int argc, char * argv[]) {
                 }else if (WIFSIGNALED(status)){
                     prev_status=128+WTERMSIG(status);
                 }else if (WIFSTOPPED(status)){
-                    printf("\nProcess %d got suspended\n",pid);
-                    prev_status=128+WSTOPSIG(status);
+                    int idx = find_job_with_pid(pid);
+                    if (idx >= 0) {
+                        strcpy(jobs[idx].status, "Stopped");
+                        printf("\n[%d]+  Stopped\t\t%s\n", jobs[idx].id, jobs[idx].command);
+                        fflush(stdout);
+                    }
+                    prev_status = 128 + WSTOPSIG(status);
                     
                 }
                 else{
