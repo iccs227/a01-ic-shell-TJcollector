@@ -203,11 +203,38 @@ int main(int argc, char * argv[]) {
         if (strcmp(command[0], "fg") == 0 && count >= 2){
             int job_id;
             int findingjob=find_job_with_id(job_id);
+            if (findingjob < 0) {
+                printf("fg: job not found: %s\n", command[1]);
+            } else {
+                printf("%s\n", jobs[findingjob].command);
+                kill(jobs[findingjob].pid, SIGCONT);
+                pid_fg = jobs[findingjob].pid;
+                int status;
+                waitpid(jobs[findingjob].pid, &status, WUNTRACED);
+                pid_fg = 0;
+                if (WIFSTOPPED(status)) {
+                    strcpy(jobs[findingjob].status, "Stopped");
+                } else {
+                    for (int j = findingjob; j < jobcounter - 1; j++) {
+                        jobs[j] = jobs[j + 1];
+                    }
+                    jobcounter--;
+                }
+            }
+            continue;
 
         }
         if (strcmp(command[0], "bg") == 0 && count >= 2) {
             int job_id;
             int findingjob = find_job_by_id(job_id);
+            if (findingjob < 0) {
+                printf("bg: job not found: %s\n", command[1]);
+            } else if (strcmp(jobs[findingjob].status, "Stopped") == 0) {
+                kill(jobs[findingjob].pid, SIGCONT);
+                strcpy(jobs[findingjob].status, "Running");
+                printf("[%d]+ %s &\n", jobs[findingjob].id, jobs[findingjob].command);
+            }
+            continue;
         }
         else {
             //condition pid<0 !pid()->0 pid()->1
