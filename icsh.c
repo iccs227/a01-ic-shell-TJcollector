@@ -59,9 +59,9 @@ void sigint_handler(int signal){
 void sigchld_handler(int signal){
     int status; pid_t pid;
      while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0) {
-        if (WIFEXITED(status)) {
-            printf("Child exited\n");
-        }
+        int idx = find_job_with_pid(pid);
+        printf("Job done: %s\n", jobs[idx].command); 
+        
     }
 }
 
