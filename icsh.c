@@ -25,11 +25,17 @@ typedef struct{
 }Job;
 Job jobs[JMAX];
 
-int find_job_with_pid(int id){
+int find_job_with_pid(int pid){
     for (int i=0;i<jobcounter;i++){
-        if(jobs[i].id == id) {
+        if(jobs[i].pid == pid) {
             return i;
         }
+    }
+    return -1;
+}
+int find_job_with_id(int id){
+    for (int i = 0; i < jobcounter; i++) {
+        if (jobs[i].id == id) return i;
     }
     return -1;
 }
@@ -41,6 +47,9 @@ void sigtstp_handler(int signal){
 }
 void sigint_handler(int signal){
     if (pid_fg>0) kill(pid_fg,SIGINT);
+}
+void childsignal_handler(int signal){
+    int status; pid_t pid;
 }
 int main(int argc, char * argv[]) {
     char prev[MAX_CMD_BUFFER]="";
