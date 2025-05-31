@@ -201,10 +201,13 @@ int main(int argc, char * argv[]) {
         //     // printf("bad command\n");
         // }
         if (strcmp(command[0], "fg") == 0 && count >= 2){
+            int job_id;
+            int findingjob=find_job_with_id(job_id);
 
         }
         if (strcmp(command[0], "bg") == 0 && count >= 2) {
-            
+            int job_id;
+            int findingjob = find_job_by_id(job_id);
         }
         else {
             //condition pid<0 !pid()->0 pid()->1
