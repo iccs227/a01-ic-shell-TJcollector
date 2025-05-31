@@ -5,12 +5,21 @@
 
 #include "stdio.h"
 #include <errno.h>
-#include <string.h>
+#include <signal.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #define MAX_CMD_BUFFER 255
 int prev_status = 0;
+volatile pid_t pid_fg=0;
+void sigtstp_handler(int signal){
+
+}
+void sigint_handler(int signal){
+
+}
 int main(int argc, char * argv[]) {
     char prev[MAX_CMD_BUFFER]="";
     char buffer[MAX_CMD_BUFFER];
