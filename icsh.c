@@ -57,11 +57,16 @@ void sigint_handler(int signal){
 
 
 void sigchld_handler(int signal){
-    int status; pid_t pid;
-     while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0) {
+     pid_t pid;
+    int status;
+    while ((pid = waitpid(-1, &status, WNOHANG)) > 0) {
         int idx = find_job_with_pid(pid);
-        printf("Job done: %s\n", jobs[idx].command); 
-        
+        if (idx >= 0) {
+            if (strcmp(jobs[idx].status, "Running") == 0) {
+                printf("\n[%d]+  Done\t\t%s\n", jobs[idx].id, jobs[idx].command);
+                strcpy(jobs[idx].status, "Done");
+            }
+        }
     }
 }
 
