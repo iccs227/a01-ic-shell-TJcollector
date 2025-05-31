@@ -48,10 +48,22 @@ void sigtstp_handler(int signal){
 void sigint_handler(int signal){
     if (pid_fg>0) kill(pid_fg,SIGINT);
 }
+//https://stackoverflow.com/questions/33508997/waitpid-wnohang-wuntraced-how-do-i-use-these
+//https://www.ibm.com/docs/en/zvm/7.3?topic=descriptions-waitpid-wait-specific-child-process-end
+//https://github.com/marioskogias/os/blob/master/exe4/sigchld-example.c for reference only
+//https://support.sas.com/documentation/onlinedoc/ccompiler/doc/lr2/waitpid.htm
+//https://www.youtube.com/watch?v=kCGaRdArSnA goat
+
+
+//not committed!!!!
 void signal_handler(int signal){
     int status; pid_t pid;
-    while()
+     while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0) {
+        
+    }
 }
+
+
 int main(int argc, char * argv[]) {
     char prev[MAX_CMD_BUFFER]="";
     char buffer[MAX_CMD_BUFFER];
