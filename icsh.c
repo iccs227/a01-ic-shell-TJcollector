@@ -128,10 +128,24 @@ int main(int argc, char * argv[]) {
                 perror("exec failed");
                 exit(1);
             } else if (pid){
+                pid_fg=pid;
                 /* 
                 * We're in the parent; let's wait for the child to finish*/
+               //thanks to this website https://www.geeksforgeeks.org/exit-status-child-process-linux/ //reference for zombie,wifexited etc
+               //note 1 : Miscellaneous errors, such as "divide by zero" and other impermissible operations.
+                // 2 : Missing keyword or command, or permission problem.
+                // 126 : Permission problem or command is not an executable
+                // 128 : invalid argument to exit.
                 int status;
                 waitpid(pid, &status, 0);
+                pid_fg=0;//resett when done
+                if(WIFEXITED(status)){
+                    prev_status=WEXITSTATUS(status);
+                }else if (WIFSIGNALED(status)){
+                    prev_status=128+WTERMSIG(status);
+                }else{
+                    prev_status=1;
+                }
             }
         }
     }
