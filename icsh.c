@@ -98,22 +98,45 @@ int main(int argc, char * argv[]) {
         char command[20][255];
         int count=0;
         char *ptr=buffer;
-        int bg=0;
+        //int bg=0;
         //issuess
-        while(sscanf(ptr,"%s",command[count])==1){
-            ptr+=strlen(command[count]);
-            while (*ptr==' ') ptr++;
+        // while(sscanf(ptr,"%s",command[count])==1){
+        //     ptr+=strlen(command[count]);
+        //     while (*ptr==' ') ptr++;
+        //     count++;
+        // }
+        char *inp = strtok(buffer," ");
+        while (inp!=NULL){
+            if(inp[0]=='<'||inp[0]=='>'){
+                if(strlen(inp)>1){
+                    command[count][0]=inp[0];
+                    command[count][1]='\0';
+                    count++;
+                    strcpy(command[count], inp+ 1);
+                    count++;
+                }
+                else {
+                    strcpy(command[count], inp);
+                    count++;
+                }
+            }
+            else {
+            strcpy(command[count], inp);
             count++;
+             }
+            inp = strtok(NULL, " ");
         }
-        if (strcmp(command[count-1], "&")==0){
-            bg=1;
-            count--;
-        }
+
+        // if (strcmp(command[count-1], "&")==0){
+        //     bg=1;
+        //     count--;
+        // }
         if(((strcmp(command[0],"echo")==0 && count==2)) && (strcmp(command[1],"$?")==0)){
              printf("%d\n", prev_status);
             prev_status = 0;
             continue;
         }
+
         else if(strcmp(command[0],"echo")==0){
             for(int i=1;i<count;i++){
                 // printf("%s ", command[i]);
