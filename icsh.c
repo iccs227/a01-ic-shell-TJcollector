@@ -99,6 +99,7 @@ int main(int argc, char * argv[]) {
         int count=0;
         char *ptr=buffer;
         int bg=0;
+        //issuess
         while(sscanf(ptr,"%s",command[count])==1){
             ptr+=strlen(command[count]);
             while (*ptr==' ') ptr++;
