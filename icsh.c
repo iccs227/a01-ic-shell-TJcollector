@@ -68,6 +68,10 @@ void sigchld_handler(int signal){
                     fflush(stdout);
                     strcpy(jobs[idx].status, "Done");
                 }
+            } else if (WIFSTOPPED(status)) {
+                printf("\n[%d]+  Stopped\t\t%s\n", jobs[idx].id, jobs[idx].command);
+                fflush(stdout);
+                // forgot to update job status!
             }
         }
     }
