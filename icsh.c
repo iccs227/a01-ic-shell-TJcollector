@@ -89,14 +89,27 @@ int main(int argc, char * argv[]) {
         //     // printf("bad command\n");
         // }
         else {
+            //condition pid<0 !pid()->0 pid()->1
+            //idea from the resource at the buttom of assignment
             char *prog_argv[21];
             for (int i = 0; i < count; i++) {
                 prog_argv[i] = command[i];
             }
-            prog_argv[count] = NULL;
-
-            execvp(prog_argv[0], prog_argv);  
-            perror("exec failed");  
+            pid_t pid = fork();
+            if (pid < 0) {
+                perror("fork failed");
+                continue;
+            } else if (!pid) {
+                 /* This is the child */ 
+                execvp(prog_argv[0], prog_argv);
+                perror("exec failed");
+                exit(1);
+            } else if (pid){
+                /* 
+                * We're in the parent; let's wait for the child to finish*/
+                int status;
+                waitpid(pid, &status, 0);
+            }
         }
     }
 
