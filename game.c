@@ -11,7 +11,7 @@
 #include <ctype.h>
 
 void wordle_game() {
-    const char *answer = "apple";  
+    const char *answer = "fades";  
     char guess[100]; // allow room for extra input, we'll trim to 5 chars
     int max_attempts = 6;
 

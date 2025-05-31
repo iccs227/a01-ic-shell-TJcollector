@@ -202,10 +202,10 @@ int main(int argc, char * argv[]) {
             }
             return code;
         }
-        // else if (strcmp(command[0], "wordle") == 0) {
-        //     wordle_game();
-        //     continue;
-        //}
+        else if (strcmp(command[0], "wordle") == 0) {
+            wordle_game();
+            continue;
+        }
         if(strcmp(command[0], "jobs")==0){
             for(int i=0;i<jobcounter;i++){
                 if (strcmp(jobs[i].status, "Done") != 0) {
