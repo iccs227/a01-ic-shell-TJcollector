@@ -14,6 +14,15 @@
 #define MAX_CMD_BUFFER 255
 int prev_status = 0;
 volatile pid_t pid_fg=0;
+#define JMAX 64
+int jobcounter=0;
+typedef struct{
+    int id;
+    pid_t pid;
+    char command[MAX_CMD_BUFFER];
+    char status[16];
+}Job;
+Job jobs[JMAX];
 void sigtstp_handler(int signal){
     if (pid_fg>0) kill(pid_fg,SIGTSTP);
 }
