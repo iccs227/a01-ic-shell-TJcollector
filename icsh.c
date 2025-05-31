@@ -57,7 +57,7 @@ void sigint_handler(int signal){
 
 
 void sigchld_handler(int signal){
-    pid_t pid;
+     pid_t pid;
     int status;
     while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0) {
         int idx = find_job_with_pid(pid);
@@ -71,7 +71,7 @@ void sigchld_handler(int signal){
             } else if (WIFSTOPPED(status)) {
                 printf("\n[%d]+  Stopped\t\t%s\n", jobs[idx].id, jobs[idx].command);
                 fflush(stdout);
-                // forgot to update job status!
+                strcpy(jobs[idx].status, "Stopped");
             }
         }
     }
