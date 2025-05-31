@@ -55,8 +55,7 @@ void sigint_handler(int signal){
 //https://www.youtube.com/watch?v=kCGaRdArSnA goat
 
 
-//not committed!!!!
-void signal_handler(int signal){
+void sigchld_handler(int signal){
     int status; pid_t pid;
      while ((pid = waitpid(-1, &status, WNOHANG | WUNTRACED)) > 0) {
         
@@ -77,6 +76,7 @@ int main(int argc, char * argv[]) {
         }
         check_script=1;
     }
+    signal(SIGCHLD, sigchld_handler);
     signal(SIGINT, sigint_handler);
     signal(SIGTSTP, sigtstp_handler);
     while (1) {
