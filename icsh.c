@@ -200,8 +200,9 @@ int main(int argc, char * argv[]) {
         //     printf("\033[1;33mbad command\033[0m\n");
         //     // printf("bad command\n");
         // }
+        //https://www.geeksforgeeks.org/c-atoi-function/ https://www.tutorialspoint.com/c_standard_library/c_function_atoi.htm
         if (strcmp(command[0], "fg") == 0 && count >= 2){
-            int job_id;
+            int job_id=atoi(command[1]);
             int findingjob=find_job_with_id(job_id);
             if (findingjob < 0) {
                 printf("fg: job not found: %s\n", command[1]);
@@ -225,7 +226,7 @@ int main(int argc, char * argv[]) {
 
         }
         if (strcmp(command[0], "bg") == 0 && count >= 2) {
-            int job_id;
+            int job_id=atoi(command[1]);
             int findingjob = find_job_by_id(job_id);
             if (findingjob < 0) {
                 printf("bg: job not found: %s\n", command[1]);
