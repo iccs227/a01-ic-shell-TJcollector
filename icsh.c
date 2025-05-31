@@ -120,7 +120,7 @@ int main(int argc, char * argv[]) {
         char command[20][255];
         int count=0;
         char *ptr=buffer;
-        //int bg=0;
+        int bg=0;
         //issuess
         // while(sscanf(ptr,"%s",command[count])==1){
         //     ptr+=strlen(command[count]);
@@ -149,10 +149,10 @@ int main(int argc, char * argv[]) {
             inp = strtok(NULL, " ");
         }
 
-        // if (strcmp(command[count-1], "&")==0){
-        //     bg=1;
-        //     count--;
-        // }
+        if (strcmp(command[count-1], "&")==0){
+            bg=1;
+            count--;
+        }
         if(((strcmp(command[0],"echo")==0 && count==2)) && (strcmp(command[1],"$?")==0)){
              printf("%d\n", prev_status);
             prev_status = 0;
@@ -189,6 +189,7 @@ int main(int argc, char * argv[]) {
         //     printf("\033[1;33mbad command\033[0m\n");
         //     // printf("bad command\n");
         // }
+        
         else {
             //condition pid<0 !pid()->0 pid()->1
             //idea from the resource at the buttom of assignment
