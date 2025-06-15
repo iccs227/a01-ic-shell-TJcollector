@@ -4,8 +4,8 @@ BINARY=icsh
 
 all: icsh
 
-icsh: icsh.c
-	$(CC) -o $(BINARY) $(CFLAGS) $<
+icsh: icsh.c game.c
+	$(CC) -o $(BINARY) $(CFLAGS) icsh.c game.c
 
 .PHONY: clean
 
